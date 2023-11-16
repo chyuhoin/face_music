@@ -34,6 +34,8 @@ function createMyBaseInstance() {
 }
 
 function handleError(e) {
+  if(e.message === 'Request failed with status code 404')
+    e.message = '用户名或密码错误';
   confirm(e.message, '出错啦~')
   throw e
 }

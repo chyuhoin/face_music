@@ -18,42 +18,42 @@ export const layoutCenterNames = ['discovery', 'playlists', 'songs', 'mvs']
 
 // 需要显示在侧边栏菜单的页面
 export const menuRoutes = [
-  // {
-  //   path: '/discovery',
-  //   name: 'discovery',
-  //   component: Discovery,
-  //   meta: {
-  //     title: '发现音乐',
-  //     icon: 'music',
-  //   },
-  // },
-  // {
-  //   path: '/playlists',
-  //   name: 'playlists',
-  //   component: Playlists,
-  //   meta: {
-  //     title: '推荐歌单',
-  //     icon: 'playlist-menu',
-  //   },
-  // },
-  // {
-  //   path: '/songs',
-  //   name: 'songs',
-  //   component: Songs,
-  //   meta: {
-  //     title: '最新音乐',
-  //     icon: 'yinyue',
-  //   },
-  // },
-  // {
-  //   path: '/mvs',
-  //   name: 'mvs',
-  //   component: Mvs,
-  //   meta: {
-  //     title: '最新MV',
-  //     icon: 'mv',
-  //   },
-  // },
+  {
+    path: '/discovery',
+    name: 'discovery',
+    component: Discovery,
+    meta: {
+      title: '面部识别',
+      icon: 'music',
+    },
+  },
+  {
+    path: '/playlists',
+    name: 'playlists',
+    component: Playlists,
+    meta: {
+      title: '推荐歌单',
+      icon: 'playlist-menu',
+    },
+  },
+  {
+    path: '/songs',
+    name: 'songs',
+    component: Songs,
+    meta: {
+      title: '最新音乐',
+      icon: 'yinyue',
+    },
+  },
+  {
+    path: '/mvs',
+    name: 'mvs',
+    component: Mvs,
+    meta: {
+      title: '用户反馈',
+      icon: 'mv',
+    },
+  },
 ]
 
 Vue.use(Router)
