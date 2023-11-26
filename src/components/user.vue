@@ -90,7 +90,8 @@ export default {
       password: "",
       uid: "",
       gender: "",
-      address: ""
+      address: "",
+      token: ""
     }
   },
   methods: {
@@ -104,7 +105,13 @@ export default {
       this.visible = false
     },
     async getUid(phone, password) {
-      this.uid = await myRequest.post('/user/login', {phone, password})
+      const resp = await myRequest.post('/login', {phone, password})
+      console.log(resp)
+      this.uid = resp.uid;
+      this.nickname = resp.nickname;
+      this.token = resp.access_token;
+      alert(this.uid);
+      alert(this.token);
     },
     async onLogin(uid, phone, password) {
       if(uid === "") {
@@ -112,7 +119,7 @@ export default {
         uid = this.uid
       }
       this.loading = true
-      const success = await this.login(uid).finally(() => {
+      const success = await this.login(uid, this.nickname).finally(() => {
         this.loading = false
       })
       if (success) {
@@ -120,7 +127,7 @@ export default {
       }
     },
     async onRegister(uid, phone, password) {
-      let id = await myRequest.post('/user/register', {uid, phone, password})
+      let id = await myRequest.post('/register', {uid, phone, password})
       if(id !== undefined) {
         await this.onLogin(uid, phone, password)
       }
