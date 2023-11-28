@@ -9,6 +9,7 @@ import {
   TableColumn,
   Popover,
   Pagination,
+  Rate
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
 import Meta from 'vue-meta'
@@ -44,6 +45,7 @@ export default {
     Vue.use(Loading)
     Vue.use(Dialog)
     Vue.use(Button)
+    Vue.use(Rate)
 
     Vue.use(Meta)
 
