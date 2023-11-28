@@ -4,27 +4,29 @@ import { notify, isDef } from '@/utils'
 import { getUserDetail, getUserPlaylist } from "@/api"
 
 export default {
-  async login({ commit }, uid, nickname) {
+  async login({ commit }, resp) {
     const error = () => {
       notify.error('登录失败，请输入正确的uid。')
       return false
     }
+    console.log(resp)
     
-    if (!isDef(uid)) {
+    if (!isDef(resp.uid)) {
       return error()
     }
 
     try {
-      const user = await getUserDetail(uid)
+      const user = await getUserDetail(resp.uid)
       const { profile } = user
-      profile.nickname = nickname;
+      
+      profile.nickname = resp.nickname;
       commit('setUser', profile)
       storage.set(UID_KEY, profile.userId)
     } catch (e) {
       return error()
     }
 
-    const { playlist } = await getUserPlaylist(uid)
+    const { playlist } = await getUserPlaylist(resp.uid)
     commit('setUserPlaylist', playlist)
     return true
   },
