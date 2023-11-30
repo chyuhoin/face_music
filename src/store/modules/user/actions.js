@@ -22,6 +22,7 @@ export default {
       profile.nickname = resp.nickname;
       commit('setUser', profile)
       storage.set(UID_KEY, profile.userId)
+      storage.set(TOKEN, resp.token)
     } catch (e) {
       return error()
     }

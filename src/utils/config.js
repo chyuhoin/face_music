@@ -24,3 +24,6 @@ export const UID_KEY = '__uid__'
 
 // 音量
 export const VOLUME_KEY = '__volume__'
+
+//jwt Token
+export const TOKEN = '__token__'

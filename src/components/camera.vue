@@ -8,13 +8,13 @@
 </template>  
     
 <script>
-import { myRequest } from '@/utils'
+import storage from "good-storage"
+import { myRequest, TOKEN } from '@/utils'
 
 export default {
   data() {
     return {
-      stream: null,
-      test: "hhh222333"
+      stream: null
     };
   },
   methods: {
@@ -51,8 +51,6 @@ export default {
 
     // 每隔一段时间截取视频流的图片并上传
     setInterval(() => {
-      console.log(this.test)
-      console.log(this.stream)
 
       // 确保视频流已经准备好
       if (this.stream) {
@@ -70,9 +68,12 @@ export default {
         let formData = new FormData();
         formData.append('file', this.dataURLtoFile(imageURL, "face.png"));
 
+        const jwtToken = storage.get(TOKEN);
+
         // 使用 Axios 发送 POST 请求
         myRequest.post('/examine', formData, {
           headers: {
+            'Authorization': 'Bearer ' + jwtToken,
             'Content-Type': 'multipart/form-data' // 设置请求头为 multipart/form-data
           }
         })
