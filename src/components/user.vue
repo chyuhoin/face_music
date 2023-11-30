@@ -73,12 +73,12 @@ import {
 } from "@/store/helper/user"
 
 export default {
-  // 自动登录
+  // TODO: 自动登录
   created() {
-    const uid = storage.get(UID_KEY)
-    if (isDef(uid)) {
-      this.onLogin(uid)
-    }
+    // const uid = storage.get(UID_KEY)
+    // if (isDef(uid)) {
+    //   this.onLogin(uid)
+    // }
   },
   data() {
     return {
