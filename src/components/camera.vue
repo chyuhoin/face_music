@@ -8,7 +8,7 @@
 </template>  
     
 <script>
-import myRequest from '@/utils'
+import { myRequest } from '@/utils'
 
 export default {
   data() {
@@ -34,6 +34,14 @@ export default {
         this.stream = null;
       }
       this.$refs.videoElement.srcObject = null;
+    },
+    dataURLtoFile(dataUrl, fileName){
+        let arr = dataUrl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], fileName, {type:mime});
     }
   },
   mounted() {
@@ -56,11 +64,11 @@ export default {
         context.drawImage(this.$refs.videoElement, 0, 0, canvas.width, canvas.height);
 
         // 将画布内容转换为图像数据URL
-        var imageURL = canvas.toDataURL('image/png');
+        let imageURL = canvas.toDataURL('image/png');
 
         // 创建一个 FormData 对象
-        var formData = new FormData();
-        formData.append('file', imageURL);
+        let formData = new FormData();
+        formData.append('file', this.dataURLtoFile(imageURL, "face.png"));
 
         // 使用 Axios 发送 POST 请求
         myRequest.post('/examine', formData, {
