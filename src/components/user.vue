@@ -106,14 +106,11 @@ export default {
     },
     async getUid(phone, password) {
       const resp = await myRequest.post('/login', {phone, password})
-      this.uid = resp.uid;
-      this.nickname = resp.nickname;
-      this.token = resp.access_token;
-      return resp
+      return resp.data
     },
     async onLogin(uid, phone, password) {
-      let resp = {nickname: ""};
-      if(uid === "") {
+      let resp = {};
+      if(uid === "" || !isDef(uid)) {
         resp = await this.getUid(phone, password)
         uid = this.uid
       }

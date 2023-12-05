@@ -2,6 +2,9 @@ import axios from 'axios'
 import { Loading } from 'element-ui'
 import { confirm } from '@/base/confirm'
 import store from '@/store'
+import storage from "good-storage"
+import { TOKEN } from './config.js'
+
 
 const BASE_URL = 'https://mu-api.yuk0.com/'
 const LOCAL_URL = 'http://localhost:5000'
@@ -29,7 +32,18 @@ function createMyBaseInstance() {
     baseURL: LOCAL_URL,
   })
 
-  instance.interceptors.response.use(handleResponse, handleError)
+  instance.interceptors.request.use(
+    config => {
+      let token = storage.get(TOKEN) // 从本地存储中获取JWT令牌
+      console.log(`TOKEN: ${TOKEN}, token: ${token}`)
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}` // 将JWT令牌添加到请求header中
+      }
+      return config
+    }
+  )
+
+  // instance.interceptors.response.use(handleResponse, handleError)
   return instance
 }
 

@@ -1,5 +1,5 @@
 import storage from 'good-storage'
-import { UID_KEY } from '@/utils'
+import { UID_KEY, TOKEN } from '@/utils'
 import { notify, isDef } from '@/utils'
 import { getUserDetail, getUserPlaylist } from "@/api"
 
@@ -22,7 +22,7 @@ export default {
       profile.nickname = resp.nickname;
       commit('setUser', profile)
       storage.set(UID_KEY, profile.userId)
-      storage.set(TOKEN, resp.token)
+      storage.set(TOKEN, resp.access_token)
     } catch (e) {
       return error()
     }

@@ -8,8 +8,7 @@
 </template>  
     
 <script>
-import storage from "good-storage"
-import { myRequest, TOKEN } from '@/utils'
+import { myRequest } from '@/utils'
 
 export default {
   data() {
@@ -68,23 +67,16 @@ export default {
         let formData = new FormData();
         formData.append('file', this.dataURLtoFile(imageURL, "face.png"));
 
-        const jwtToken = storage.get(TOKEN);
-
         // 使用 Axios 发送 POST 请求
-        myRequest.post('/examine', formData, {
-          headers: {
-            'Authorization': 'Bearer ' + jwtToken,
-            'Content-Type': 'multipart/form-data' // 设置请求头为 multipart/form-data
-          }
+        myRequest.post('/examine', formData)
+        .then(function(response) {
+          // 处理响应
+          console.log(response.data);
         })
-          .then(function(response) {
-            // 处理响应
-            console.log(response.data);
-          })
-          .catch(function(error) {
-            // 处理错误
-            console.log(error);
-          });
+        .catch(function(error) {
+          // 处理错误
+          console.log(error);
+        });
       }
     }, 10000); // 每隔10秒钟上传一次
   }
