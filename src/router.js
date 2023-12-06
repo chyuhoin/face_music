@@ -10,6 +10,8 @@ const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/s
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
 
+const AdminUser = () => import(/* webpackChunkName: "AdminUser" */ '@/page/admin-user')
+
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
 
@@ -54,6 +56,19 @@ export const menuRoutes = [
       icon: 'mv',
     },
   },
+]
+
+//管理员界面的侧边栏菜单
+export const adminMenuRoutes = [
+  {
+    path: '/admin-user',
+    name: 'admin-user',
+    component: AdminUser,
+    meta: {
+      title: '用户管理',
+      icon: 'music',
+    },
+  }
 ]
 
 Vue.use(Router)
@@ -104,5 +119,6 @@ export default new Router({
       props: (route) =>  ({id: +route.params.id}),
     },
     ...menuRoutes,
+    ...adminMenuRoutes
   ],
 })

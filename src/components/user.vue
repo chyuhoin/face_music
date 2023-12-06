@@ -51,7 +51,7 @@
         <span class="dialog-footer" slot="footer">
           <el-button
             :loading="loading"
-            @click="onRegister(uid, phone, password)"
+            @click="onRegister(phone, password, nickname, address, uid)"
             class="login-btn"
             type="primary"
             >注册并登录</el-button
@@ -123,8 +123,8 @@ export default {
         this.onCloseModal()
       }
     },
-    async onRegister(uid, phone, password) {
-      let id = await myRequest.post('/register', {uid, phone, password})
+    async onRegister(phone, password, nickname, address, uid) {
+      let id = await myRequest.post('/registration', {phone, password, nickname, address, uid})
       if(id !== undefined) {
         await this.onLogin(uid, phone, password)
       }

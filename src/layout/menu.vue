@@ -32,7 +32,7 @@ import {
   mapState as mapUserState,
   mapGetters as mapUserGetters
 } from "@/store/helper/user"
-import { menuRoutes } from "@/router"
+import { menuRoutes, adminMenuRoutes } from "@/router"
 
 export default {
   data() {
@@ -42,18 +42,31 @@ export default {
           type: "root",
           children: menuRoutes
         }
+      ],
+      adminMenus: [
+        {
+          type: "root",
+          children: adminMenuRoutes
+        }
       ]
     }
   },
   computed: {
     // 组合登录后的歌单
     menusWithPlaylist() {
-      return this.isLogin && this.userMenus.length
+      if (this.isLogin) {
+        if (this.isAdmin) {
+          return this.adminMenus;
+        }
+      } else {
+        return this.userMenus.length
         ? this.menus.concat(this.userMenus)
         : this.menus
+      }
+      
     },
     ...mapUserState(["userPlaylist"]),
-    ...mapUserGetters(["isLogin", "userMenus"])
+    ...mapUserGetters(["isLogin", "userMenus", "isAdmin"])
   },
   components: {
     User

@@ -43,13 +43,14 @@ function createMyBaseInstance() {
     }
   )
 
-  // instance.interceptors.response.use(handleResponse, handleError)
+  instance.interceptors.response.use(x => x, e => {
+    confirm(e, '调试信息');
+    throw e
+  })
   return instance
 }
 
 function handleError(e) {
-  if(e.message === 'Request failed with status code 404')
-    e.message = '用户名或密码错误';
   confirm(e.message, '出错啦~')
   throw e
 }

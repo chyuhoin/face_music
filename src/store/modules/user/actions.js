@@ -6,7 +6,7 @@ import { getUserDetail, getUserPlaylist } from "@/api"
 export default {
   async login({ commit }, resp) {
     const error = () => {
-      notify.error('登录失败，请输入正确的uid。')
+      notify.error('登录失败，用户名或密码错误')
       return false
     }
     console.log(resp)
@@ -20,6 +20,7 @@ export default {
       const { profile } = user
       
       profile.nickname = resp.nickname;
+      profile.level = resp.level;
       commit('setUser', profile)
       storage.set(UID_KEY, profile.userId)
       storage.set(TOKEN, resp.access_token)

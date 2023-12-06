@@ -2,6 +2,8 @@ import { isDef } from "@/utils";
 
 export const isLogin = (state) => isDef(state.user.userId)
 
+export const isAdmin = (state) => isDef(state.user.level)
+
 // 根据用户请求的数据整合出菜单
 export const userMenus = (state) => {
   const {user,userPlaylist } = state
