@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import storage from 'good-storage'
 
 const Discovery = () => import(/* webpackChunkName: "Discovery" */ '@/page/discovery')
 const PlaylistDetail = () => import(/* webpackChunkName: "PlaylistDetail" */ '@/page/playlist-detail')
@@ -78,7 +79,15 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/discovery',
+      redirect: (to) => {
+        const isAdmin = storage.get('__role__')
+
+        if (isAdmin) {
+          return '/admin-user';
+        } else {
+          return '/discovery';
+        }
+      },
     },
     {
       path: '/playlist/:id',

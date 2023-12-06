@@ -125,6 +125,7 @@ export default {
       if (success) {
         this.onCloseModal()
       }
+      this.$router.push('/')
     },
     async onRegister(phone, password, nickname, address, uid) {
       let resp = await myRequest.post('/registration', {phone, password, nickname, address, uid})
@@ -135,6 +136,7 @@ export default {
     onLogout() {
       confirm("确定要注销吗？", () => {
         this.logout()
+        this.$router.push('/')
       })
     },
     ...mapUserActions(["login", "logout"])

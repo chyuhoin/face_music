@@ -24,6 +24,7 @@ export default {
       commit('setUser', profile)
       storage.set(UID_KEY, profile.userId)
       storage.set(TOKEN, resp.access_token)
+      storage.set('__role__', resp.level)
     } catch (e) {
       return error()
     }
@@ -37,5 +38,6 @@ export default {
     commit('setUserPlaylist', [])
     storage.set(UID_KEY, null)
     storage.set(TOKEN, null)
+    storage.set('__role__', null)
   }
 }

@@ -27,6 +27,11 @@
       prop="level"
       label="身份"
       :formatter="formatter">
+      <template slot-scope="scope">
+        <el-tag
+          :type="scope.row.level ? 'primary' : 'success'"
+          disable-transitions>{{scope.row.level ? '管理员': '用户'}}</el-tag>
+      </template>
     </el-table-column>
   </el-table>
   </div>
@@ -44,15 +49,19 @@ export default {
   methods: {
     async getUsers() {
       let resp = await myRequest.get('/userList');
-      return resp.data
+      this.users = resp.data;
+      this.users.forEach(user => {
+      })
     }
   },
-  created() {
+  mounted() {
     this.getUsers();
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.admin-user {
+  padding: 50px;
+}
 </style>
