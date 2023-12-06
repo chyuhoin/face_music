@@ -29,7 +29,7 @@
         <span class="dialog-footer" slot="footer">
           <el-button
             :loading="loading"
-            @click="onLogin(uid, phone, password)"
+            @click="onLogin(null, phone, password)"
             class="login-btn"
             type="primary"
             >登 录</el-button
@@ -64,7 +64,7 @@
 
 <script type="text/ecmascript-6">
 import storage from "good-storage"
-import { UID_KEY, isDef, myRequest } from "@/utils"
+import { TOKEN, isDef, myRequest } from "@/utils"
 import { confirm } from "@/base/confirm"
 import {
   mapActions as mapUserActions,
@@ -73,12 +73,12 @@ import {
 } from "@/store/helper/user"
 
 export default {
-  // TODO: 自动登录
+  //自动登录
   created() {
-    // const uid = storage.get(UID_KEY)
-    // if (isDef(uid)) {
-    //   this.onLogin(uid)
-    // }
+    const token = storage.get(TOKEN)
+    if (isDef(token)) {
+      this.onLogin(token)
+    }
   },
   data() {
     return {
@@ -108,11 +108,14 @@ export default {
       const resp = await myRequest.post('/login', {phone, password})
       return resp.data
     },
-    async onLogin(uid, phone, password) {
-      let resp = {};
-      if(uid === "" || !isDef(uid)) {
+    async onLogin(token, phone, password) {
+      let resp = {}
+      if (token) {
+        resp = await myRequest.post('/myInfo')
+        resp = resp.data;
+        resp.access_token = token;
+      } else {
         resp = await this.getUid(phone, password)
-        uid = this.uid
       }
       this.loading = true
       console.log(resp)
@@ -124,9 +127,9 @@ export default {
       }
     },
     async onRegister(phone, password, nickname, address, uid) {
-      let id = await myRequest.post('/registration', {phone, password, nickname, address, uid})
-      if(id !== undefined) {
-        await this.onLogin(uid, phone, password)
+      let resp = await myRequest.post('/registration', {phone, password, nickname, address, uid})
+      if(resp !== undefined) {
+        await this.onLogin(resp.data.access_token)
       }
     },
     onLogout() {

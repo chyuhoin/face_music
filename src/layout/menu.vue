@@ -57,13 +57,14 @@ export default {
       if (this.isLogin) {
         if (this.isAdmin) {
           return this.adminMenus;
+        } else {
+          return this.userMenus.length
+          ? this.menus.concat(this.userMenus)
+          : this.menus
         }
       } else {
-        return this.userMenus.length
-        ? this.menus.concat(this.userMenus)
-        : this.menus
+        return this.menus
       }
-      
     },
     ...mapUserState(["userPlaylist"]),
     ...mapUserGetters(["isLogin", "userMenus", "isAdmin"])

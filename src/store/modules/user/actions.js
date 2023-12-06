@@ -36,5 +36,6 @@ export default {
     commit('setUser', {})
     commit('setUserPlaylist', [])
     storage.set(UID_KEY, null)
+    storage.set(TOKEN, null)
   }
 }

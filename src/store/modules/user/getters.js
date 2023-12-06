@@ -2,7 +2,7 @@ import { isDef } from "@/utils";
 
 export const isLogin = (state) => isDef(state.user.userId)
 
-export const isAdmin = (state) => isDef(state.user.level)
+export const isAdmin = (state) => state.user.level === true
 
 // 根据用户请求的数据整合出菜单
 export const userMenus = (state) => {
