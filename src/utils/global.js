@@ -9,7 +9,8 @@ import {
   TableColumn,
   Popover,
   Pagination,
-  Rate
+  Rate,
+  Tag
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
 import Meta from 'vue-meta'
@@ -46,6 +47,7 @@ export default {
     Vue.use(Dialog)
     Vue.use(Button)
     Vue.use(Rate)
+    Vue.use(Tag)
 
     Vue.use(Meta)
 

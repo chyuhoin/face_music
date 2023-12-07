@@ -12,6 +12,7 @@ const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
 
 const AdminUser = () => import(/* webpackChunkName: "AdminUser" */ '@/page/admin-user')
+const AdminData = () => import(/* webpackChunkName: "AdminData" */ '@/page/admin-data')
 
 const Mvs = () => import(/* webpackChunkName: "Mvs" */ '@/page/mvs')
 const Mv = () => import(/* webpackChunkName: "Mv" */ '@/page/mv')
@@ -67,7 +68,16 @@ export const adminMenuRoutes = [
     component: AdminUser,
     meta: {
       title: '用户管理',
-      icon: 'music',
+      icon: 'yonghu',
+    },
+  },
+  {
+    path: '/admin-data',
+    name: 'admin-data',
+    component: AdminData,
+    meta: {
+      title: '数据监测',
+      icon: 'shrink',
     },
   }
 ]
