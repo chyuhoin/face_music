@@ -14,6 +14,7 @@ import {
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
 import Meta from 'vue-meta'
+import * as echarts from 'echarts'
 import * as utils from "./index"
 import { EMPTY_IMG } from "./dom"
 
@@ -35,6 +36,8 @@ export default {
 
     Vue.prototype.$ELEMENT = { size: "small" }
     Vue.prototype.$utils = utils
+
+    Vue.prototype.$echarts = echarts;
 
     Vue.use(Input)
     Vue.use(Carousel)

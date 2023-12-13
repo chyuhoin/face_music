@@ -22,6 +22,7 @@
     "better-scroll": "^1.15.2",
     "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
+    "echarts": "^5.4.3",
     "element-ui": "^2.10.1",
     "good-storage": "^1.1.0",
     "lodash-es": "^4.17.15",
