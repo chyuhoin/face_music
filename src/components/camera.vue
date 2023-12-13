@@ -8,12 +8,16 @@
 </template>  
     
 <script>
-import { myRequest } from '@/utils'
+import { myRequest, createSong } from '@/utils'
+import { mapActions } from '@/store/helper/music'
+import { getSongDetail } from "@/api"
+import { confirm } from "@/base/confirm"
 
 export default {
   data() {
     return {
-      stream: null
+      stream: null,
+      listening: false,
     };
   },
   methods: {
@@ -41,7 +45,27 @@ export default {
             u8arr[n] = bstr.charCodeAt(n);
         }
         return new File([u8arr], fileName, {type:mime});
-    }
+    },
+    async recommend(emotion) {
+      let resp = await myRequest.post("/recommend", { emotion })
+      console.log(resp)
+      if (resp.data.message !== '') return;
+      const songDetails = await getSongDetail(resp.data.recommend)
+      const songs = songDetails.songs.map(({ id, name, al, ar, mv, dt }) =>
+        createSong({
+          id,
+          name,
+          artists: ar,
+          duration: dt,
+          mvId: mv,
+          albumName: al.name,
+          img: al.picUrl,
+        }),
+      )
+      this.addToPlaylist(songs[0])
+      confirm(`已经添加歌曲：${songDetails.songs[0].name}进入播放队列！`)
+    },
+    ...mapActions(["startSong", "addToPlaylist"])
   },
   mounted() {
     // 创建一个 HTMLCanvasElement 元素
@@ -49,8 +73,7 @@ export default {
     let context = canvas.getContext('2d');
 
     // 每隔一段时间截取视频流的图片并上传
-    setInterval(() => {
-
+    this.listening = setInterval(() => {
       // 确保视频流已经准备好
       if (this.stream) {
         // 设置画布尺寸和视频尺寸一致
@@ -67,18 +90,19 @@ export default {
         let formData = new FormData();
         formData.append('file', this.dataURLtoFile(imageURL, "face.png"));
 
-        // 使用 Axios 发送 POST 请求
         myRequest.post('/examine', formData)
-        .then(function(response) {
-          // 处理响应
-          console.log(response.data);
+        .then(response => {
+          if (!response.data.id) return;
+          this.recommend(response.data.score)
         })
         .catch(function(error) {
-          // 处理错误
           console.log(error);
         });
       }
     }, 10000); // 每隔10秒钟上传一次
+  },
+  beforeDestroy() {
+    clearInterval(this.listening)
   }
 };
 </script>
