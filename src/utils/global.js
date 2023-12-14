@@ -10,7 +10,9 @@ import {
   Popover,
   Pagination,
   Rate,
-  Tag
+  Tag,
+  Slider,
+  InputNumber
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
 import Meta from 'vue-meta'
@@ -51,6 +53,8 @@ export default {
     Vue.use(Button)
     Vue.use(Rate)
     Vue.use(Tag)
+    Vue.use(Slider)
+    Vue.use(InputNumber)
 
     Vue.use(Meta)
 
