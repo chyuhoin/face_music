@@ -1,6 +1,6 @@
 <template>
     <div class="admin-music">
-      <AddMusic :opened="openDialog"/>
+      <AddMusic :opened="openDialog" @close="closeAdd"/>
       <el-button @click="addMusic()">添加音乐</el-button>
       <SongTable
         :songs="songs"
@@ -10,7 +10,7 @@
   </template>
   
 <script>
-import { myRequest, notify, createSong } from '@/utils'
+import { myRequest, createSong } from '@/utils'
 import { getSongDetail } from '@/api'
 import SongTable from "@/components/song-table"
 import AddMusic from "@/components/add-music"
@@ -25,6 +25,9 @@ export default {
   methods: {
     addMusic() {
       this.openDialog = true;
+    },
+    closeAdd() {
+      this.openDialog = false;
     },
     async getSongData() {
       let resp = await myRequest.get('/musicIds');

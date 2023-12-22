@@ -1,37 +1,52 @@
 <template>
   <div class="add-music">
-    <el-dialog title="添加音乐" :visible.sync="opened">
-      <div class="id-input">
-        <span style="margin-right: 50px;">音乐ID</span>
-        <el-input v-model="id" placeholder="请输入音乐id" style="width: 30%;"></el-input>
+    <el-dialog title="添加音乐" :visible.sync="opened" @close="closeDialog">
+      <div class="id-input" style="margin-bottom: 30px;">
+        <span style="margin-right: 50px;">音乐名</span>
+        <el-input
+          @click.native="onClickInput"
+          @input="onInput"
+          placeholder="输入音乐名进行搜索"
+          prefix-icon="el-icon-search"
+          ref="input"
+          v-model.trim="searchKeyword"
+          style="width: 50%;"
+        ></el-input>
+        <div v-if="searchPanelShow">
+          <div
+            :key="index"
+            class="suggest-item"
+            v-for="(normalizedSuggest, index) in normalizedSuggests"
+          >
+            <ul class="list">
+              <li
+                :key="item.id"
+                @click="normalizedSuggest.onClick(item)"
+                class="item"
+                v-for="item in normalizedSuggest.data"
+              >
+                <HighlightText
+                  :highlightText="searchKeyword"
+                  :text="item.name + ' - ' + (item.artists || []).map(({ name }) => name).join('/')"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top: 20px;">
+          音乐ID
+          <span style="margin-left: 50px;">{{ id }}</span>
+        </p>
       </div>
-      <div class="block">
-        <span>Anger</span>
-        <el-slider v-model="anger" :show-tooltip="false" style="display: inline;"></el-slider>
-      </div>
-      <div class="block">
-        <span>Disgust</span>
-        <el-slider v-model="disgust" :show-tooltip="false"></el-slider>
-      </div>
-      <div class="block">
-        <span>Fear</span>
-        <el-slider v-model="fear" :show-tooltip="false"></el-slider>
-      </div>
-      <div class="block">
-        <span>Happiness</span>
-        <el-slider v-model="happiness" :show-tooltip="false"></el-slider>
-      </div>
-      <div class="block">
-        <span>Neutral</span>
-        <el-slider v-model="neutral" :show-tooltip="false"></el-slider>
-      </div>
-      <div class="block">
-        <span>Sadness</span>
-        <el-slider v-model="sadness" :show-tooltip="false"></el-slider>
-      </div>
-      <div class="block">
-        <span>Surprise</span>
-        <el-slider v-model="surprise" :show-tooltip="false"></el-slider>
+
+      <span style="margin-top: 50px;">音乐情感</span>
+      <div class="emotion" v-for="e in emotionList" :key="e">
+        <ul>
+          <li style="margin-top: 10px;">
+            <span style="display:inline-block; width:90px; text-align:right;">{{ e.tp }}</span>
+            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 5%; margin-left: 20px;"></el-input>
+          </li>
+        </ul>
       </div>
       <el-button @click="submit()">添加音乐</el-button>
     </el-dialog>
@@ -39,10 +54,9 @@
 </template>
   
 <script>
-import { myRequest, notify, createSong } from '@/utils'
+import { myRequest, notify, debounce } from '@/utils'
 import { confirm } from '@/base/confirm'
-import { getSongDetail } from '@/api'
-import SongTable from "@/components/song-table"
+import { getSongDetail, getSearchSuggest } from '@/api'
 
 export default {
   props: {
@@ -53,31 +67,63 @@ export default {
   },
   data() {
     return {
+      searchKeyword: "",
+      suggest: {},
+      searchPanelShow: false,
       id: "",
-      anger: 50,
-      disgust: 50,
-      fear: 50,
-      happiness: 50,
-      neutral: 50,
-      sadness: 50,
-      surprise: 50,
+      emotionList: [
+        {tp: "anger", val: 0},
+        {tp: "disgust", val: 0},
+        {tp: "fear", val: 0},
+        {tp: "happiness", val: 0},
+        {tp: "neutral", val: 0},
+        {tp: "sadness", val: 0},
+        {tp: "surprise", val: 0},
+        
+      ]
     }
   },
   methods: {
+    onClickInput() {
+      this.searchPanelShow = true
+    },
+    onBlur() {
+      this.searchPanelShow = false
+    },
+    onInput: debounce(function(value) {
+      if (!value.trim()) {
+        return
+      }
+      getSearchSuggest(value).then(({ result }) => {
+        this.suggest = result
+      })
+    }, 500),
+    onClickSong(item) {
+      this.id = item.id;
+      this.searchKeyword = item.name;
+      this.searchPanelShow = false;
+    },
     async submit() {
       if (this.id === "") {
         confirm("请输入音乐ID！")
         return;
       }
-      let total = this.anger + this.disgust + this.fear + this.happiness + this.neutral + this.sadness + this.surprise + 7;
+
+      //TODO: 修改情感数组的处理方式，使之能够上传
+      console.log(this.emotionList);
+      let emotionVal = this.emotionList.forEach(e => e.tp + 1);
+      console.log(emotionVal);
+      let total = emotionVal.reduce((sum, now) => sum + now);
+      
+      
       let emotion = {
-        anger: (this.anger + 1) / total,
-        disgust: (this.disgust + 1) / total,
-        fear: (this.fear + 1) / total,
-        happiness: (this.happiness + 1) / total,
-        neutral: (this.neutral + 1) / total,
-        sadness: (this.sadness + 1) / total,
-        surprise: (this.surprise + 1) / total,
+        anger: emotionVal[0] / total,
+        disgust: emotionVal[1] / total,
+        fear: emotionVal[2] / total,
+        happiness: emotionVal[3] / total,
+        neutral: emotionVal[4] / total,
+        sadness: emotionVal[5] / total,
+        surprise: emotionVal[6] / total,
       }
       let detail = await getSongDetail(this.id);
       if (!detail.songs[0]) {
@@ -88,30 +134,55 @@ export default {
       if (resp.data.name) {
         notify.success(`音乐${resp.data.name}添加成功！`)
         this.id = ""
+        this.searchKeyword = ""
       }
-      opened = false;
+      this.$emit('close');
+    },
+    closeDialog() {
+      this.$emit('close');
     }
   },
   mounted() {
-    this.getSongData();
   },
-  components: {
-    SongTable
+  computed: {
+    normalizedSuggests() {
+      return [
+        {
+          title: "单曲",
+          icon: "music",
+          data: this.suggest.songs,
+          onClick: this.onClickSong.bind(this)
+        }
+      ].filter(item => item.data && item.data.length)
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.id-input {
-  display: inline;
-  margin-bottom: 10px;
-}
-.block {
-  width: 30%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 40px;
-  display: flexbox;
+
+.suggest-item {
+  position: fixed;
+  right: auto;
+  width: 350px;
+  background: var(--search-bgcolor);
+  z-index: $search-panel-z-index;
+  font-size: $font-size-sm;
+  overflow-y: auto;
+  @include box-shadow;
+  margin-bottom: 16px;
+
+  .list {
+      .item {
+        padding: 12px 24px;
+        cursor: pointer;
+        @include text-ellipsis();
+
+        &:hover {
+          background: var(--light-bgcolor);
+        }
+      }
+    }
 }
 </style>
   

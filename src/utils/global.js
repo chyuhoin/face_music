@@ -11,7 +11,7 @@ import {
   Pagination,
   Rate,
   Tag,
-  Slider,
+  Select,
   InputNumber
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
@@ -53,7 +53,7 @@ export default {
     Vue.use(Button)
     Vue.use(Rate)
     Vue.use(Tag)
-    Vue.use(Slider)
+    Vue.use(Select)
     Vue.use(InputNumber)
 
     Vue.use(Meta)
