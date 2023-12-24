@@ -28,6 +28,7 @@ export default {
     },
     closeAdd() {
       this.openDialog = false;
+      this.getSongData();
     },
     async getSongData() {
       let resp = await myRequest.get('/musicIds');

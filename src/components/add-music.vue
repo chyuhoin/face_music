@@ -40,7 +40,7 @@
       </div>
 
       <span style="margin-top: 50px;">音乐情感</span>
-      <div class="emotion" v-for="e in emotionList" :key="e">
+      <div class="emotion" v-for="(e, index) in emotionList" :key="index">
         <ul>
           <li style="margin-top: 10px;">
             <span style="display:inline-block; width:90px; text-align:right;">{{ e.tp }}</span>
@@ -109,12 +109,8 @@ export default {
         return;
       }
 
-      //TODO: 修改情感数组的处理方式，使之能够上传
-      console.log(this.emotionList);
-      let emotionVal = this.emotionList.forEach(e => e.tp + 1);
-      console.log(emotionVal);
+      let emotionVal = this.emotionList.map(e => parseInt(e.val) + 1);
       let total = emotionVal.reduce((sum, now) => sum + now);
-      
       
       let emotion = {
         anger: emotionVal[0] / total,
