@@ -3,7 +3,7 @@ import { Loading } from 'element-ui'
 import { confirm } from '@/base/confirm'
 import store from '@/store'
 import storage from "good-storage"
-import { TOKEN } from './config.js'
+import { TOKEN, REFRESH } from './config.js'
 
 
 const BASE_URL = 'https://mu-api.yuk0.com/'
@@ -35,7 +35,6 @@ function createMyBaseInstance() {
   instance.interceptors.request.use(
     config => {
       let token = storage.get(TOKEN) // 从本地存储中获取JWT令牌
-      console.log(`TOKEN: ${TOKEN}, token: ${token}`)
       if (token) {
         config.headers['Authorization'] = `Bearer ${token}` // 将JWT令牌添加到请求header中
       }
@@ -43,9 +42,26 @@ function createMyBaseInstance() {
     }
   )
 
-  instance.interceptors.response.use(x => x, e => {
-    confirm(e, '调试信息');
-    throw e
+  instance.interceptors.response.use(x => x, error => {
+    let msg = "";
+    if (error.response) {
+
+      if (error.response.status == 401) {
+        if (error.response.data.msg === 'Token has expired') confirm('登录已经过期，请重新登录', '通知');
+        if (error.response.data.msg === 'Missing Authorization Header') confirm('还没有登录，请先登录', '通知');
+        throw error
+      }
+
+      msg += '响应状态码:' + error.response.status + "\n";
+      msg += '响应数据:' + error.response.data + "\n";
+      msg += '响应头部信息:' + error.response.headers + "\n";
+    }
+    if (error.request) {
+      msg += '请求信息:'+ error.request + "\n";
+    }
+    msg += '错误信息:'+ error.message + "\n";
+    confirm(msg, '调试信息');
+    throw error
   })
   return instance
 }
