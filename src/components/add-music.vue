@@ -131,6 +131,7 @@ export default {
         notify.success(`音乐${resp.data.name}添加成功！`)
         this.id = ""
         this.searchKeyword = ""
+        this.emotionList.forEach(e => e.val = 0);
       }
       this.$emit('close');
     },

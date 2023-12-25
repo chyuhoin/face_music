@@ -1,7 +1,9 @@
 <template>
     <div class="admin-music">
-      <AddMusic :opened="openDialog" @close="closeAdd"/>
+      <AddMusic :opened="openAddDialog" @close="closeAdd"/>
+      <EditMusic :opened="openEditDialog" @close="closeEdit"/>
       <el-button @click="addMusic()">添加音乐</el-button>
+      <el-button @click="editMusic()">编辑音乐</el-button>
       <SongTable
         :songs="songs"
         header-row-class-name="header-row"
@@ -14,20 +16,29 @@ import { myRequest, createSong } from '@/utils'
 import { getSongDetail } from '@/api'
 import SongTable from "@/components/song-table"
 import AddMusic from "@/components/add-music"
+import EditMusic from "@/components/edit-music"
 
 export default {
   data() {
     return {
       songs: [],
-      openDialog: false
+      openAddDialog: false,
+      openEditDialog: false
     }
   },
   methods: {
     addMusic() {
-      this.openDialog = true;
+      this.openAddDialog = true;
+    },
+    editMusic() {
+      this.openEditDialog = true;
     },
     closeAdd() {
-      this.openDialog = false;
+      this.openAddDialog = false;
+      this.getSongData();
+    },
+    closeEdit() {
+      this.openEditDialog = false;
       this.getSongData();
     },
     async getSongData() {
@@ -60,7 +71,8 @@ export default {
   },
   components: {
     SongTable,
-    AddMusic
+    AddMusic,
+    EditMusic
   }
 }
 </script>
