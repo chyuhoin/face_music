@@ -10,6 +10,7 @@ const Search = () => import(/* webpackChunkName: "Search" */ '@/page/search')
 const SearchSongs = () => import(/* webpackChunkName: "SearchSongs" */ '@/page/search/songs')
 const SearchPlaylists = () => import(/* webpackChunkName: "SearchPlaylists" */ '@/page/search/playlists')
 const SearchMvs = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/search/mvs')
+const Statista = () => import(/* webpackChunkName: "SearchMvs" */ '@/page/statista')
 
 const AdminUser = () => import(/* webpackChunkName: "AdminUser" */ '@/page/admin-user')
 const AdminData = () => import(/* webpackChunkName: "AdminData" */ '@/page/admin-data')
@@ -59,6 +60,15 @@ export const menuRoutes = [
       icon: 'mv',
     },
   },
+  {
+    path: '/statista',
+    name: 'statista',
+    component: Statista,
+    meta: {
+      title: '数据统计',
+      icon: 'shrink',
+    },
+  }
 ]
 
 //管理员界面的侧边栏菜单
