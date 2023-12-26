@@ -132,6 +132,7 @@ export default {
         this.id = ""
         this.searchKeyword = ""
         this.emotionList.forEach(e => e.val = 0);
+        this.suggest = {};
       }
       this.$emit('close');
     },

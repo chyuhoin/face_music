@@ -3,7 +3,7 @@ import { Loading } from 'element-ui'
 import { confirm } from '@/base/confirm'
 import store from '@/store'
 import storage from "good-storage"
-import { TOKEN, REFRESH } from './config.js'
+import { TOKEN } from './config.js'
 
 
 const BASE_URL = 'https://mu-api.yuk0.com/'
