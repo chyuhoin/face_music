@@ -154,37 +154,36 @@ export default {
           {
             name: 'anger',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.anger
           },
           {
             name: 'disgust',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.disgust
           },
           {
             name: 'fear',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.fear
           },
           {
             name: 'happiness',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.happiness
+          },
+          {
+            name: 'neutral',
+            type: 'line',
+            data: this.userLineData.emotion.neutral
           },
           {
             name: 'sadness',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.sadness
           },
           {
             name: 'surprise',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.surprise
           }
         ]

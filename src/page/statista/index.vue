@@ -1,6 +1,6 @@
 <template>
   <div class="statista">
-      <div class="emotion-chart" style="margin-bottom: 80px;">
+    <div class="emotion-chart" style="margin-bottom: 80px;">
       <p>用户个人情感统计</p>
       <div class="chart-container">
         <div class="chart" ref="userEmotionChart"></div>
@@ -8,6 +8,10 @@
         <p>情感数据统计</p>
         <p>情感变化折线</p>
       </div>
+    </div>
+    <span>心理预警</span>
+    <div class="alarm">
+      {{ alarmText }}
     </div>
   </div>
 </template>
@@ -21,7 +25,8 @@ export default {
       userEmotionData: null,
       userEmotionChart: null,
       userLineData: null,
-      userLineChart: null
+      userLineChart: null,
+      alarmText: null
     }
   },
   methods: {
@@ -106,41 +111,41 @@ export default {
           {
             name: 'anger',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.anger
           },
           {
             name: 'disgust',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.disgust
           },
           {
             name: 'fear',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.fear
           },
           {
             name: 'happiness',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.happiness
+          },
+          {
+            name: 'neutral',
+            type: 'line',
+            data: this.userLineData.emotion.neutral
           },
           {
             name: 'sadness',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.sadness
           },
           {
             name: 'surprise',
             type: 'line',
-            stack: 'Total',
             data: this.userLineData.emotion.surprise
           }
         ]
       });
+      this.getAlarmText();
     },
     async getData() {
       let resp = await myRequest.get('/face/user/all');
@@ -150,6 +155,25 @@ export default {
       this.userLineData = resp.data;
 
       return true;
+    },
+    getAlarmText() {
+      let emotionList = [
+        {tp: "anger", val: this.userEmotionData.anger},
+        {tp: "disgust", val: this.userEmotionData.disgust},
+        {tp: "fear", val: this.userEmotionData.fear},
+        {tp: "happiness", val: this.userEmotionData.happiness},
+        {tp: "neutral", val: this.userEmotionData.neutral},
+        {tp: "sadness", val: this.userEmotionData.sadness},
+        {tp: "surprise", val: this.userEmotionData.surprise},
+      ];
+      emotionList.sort((x, y) => {return y.val - x.val});
+      if(emotionList[0].tp === 'anger') this.alarmText = "您的总心情中，生气最多，请注意";
+      if(emotionList[0].tp === 'disgust') this.alarmText = "您的总心情中，厌恶最多，请注意";
+      if(emotionList[0].tp === 'fear') this.alarmText = "您的总心情中，恐惧最多，请注意";
+      if(emotionList[0].tp === 'happiness') this.alarmText = "您的总心情中，开心最多";
+      if(emotionList[0].tp === 'neutral') this.alarmText = "您的总心情中，平静最多";
+      if(emotionList[0].tp === 'sadness') this.alarmText = "您的总心情中，伤心最多，请注意";
+      if(emotionList[0].tp === 'surprise') this.alarmText = "您的总心情中，惊讶最多，请注意";
     }
   },
   mounted() {
@@ -176,6 +200,10 @@ export default {
 }
 .line {
   margin-top: 20px;
+}
+.alarm {
+  margin: 10px;
+  font-size: larger;
 }
 </style>
   
