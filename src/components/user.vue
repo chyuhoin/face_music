@@ -130,7 +130,7 @@ export default {
     async onRegister(phone, password, nickname, address, uid) {
       let resp = await myRequest.post('/registration', {phone, password, nickname, address, uid})
       if(resp !== undefined) {
-        await this.onLogin(resp.data.access_token)
+        await this.onLogin(resp.data.access_token, resp.data.phone, resp.data.password) //注意：目前后端registration接口不返回access_token，如果要做密码加密存储，记得改后端
       }
     },
     onLogout() {
