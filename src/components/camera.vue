@@ -1,9 +1,16 @@
- 
-<template>
+ <template>
   <div>
-    <video ref="videoElement" autoplay></video>
-    <el-button @click="startCamera()">启动摄像头</el-button>
-    <el-button @click="stopCamera()">停止摄像头</el-button>
+    <div> 
+      <video controls width="800" height = "500" ref="videoElement" autoplay></video>
+    </div>
+    <div>
+      <el-button @click="startCamera()" type="success" 
+      style="flex:1; margin-left:200px; margin-top:20px; height: 40px"
+      >启动摄像头</el-button>
+      <el-button @click="stopCamera()" type="danger" 
+      style="flex:1; margin-left:170px; margin-top:20px; height: 40px"
+      >停止摄像头</el-button>
+    </div>
   </div>
 </template>  
     
@@ -48,7 +55,6 @@ export default {
     },
     async recommend(emotion) {
       let resp = await myRequest.post("/recommend", { emotion })
-      console.log(resp)
       if (resp.data.message !== '') return;
       const songDetails = await getSongDetail(resp.data.recommend)
       const songs = songDetails.songs.map(({ id, name, al, ar, mv, dt }) =>
@@ -96,7 +102,6 @@ export default {
           this.recommend(response.data.score)
         })
         .catch(function(error) {
-          console.log(error);
         });
       }
     }, 10000); // 每隔10秒钟上传一次

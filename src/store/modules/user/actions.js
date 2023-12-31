@@ -9,7 +9,6 @@ export default {
       notify.error('登录失败，用户名或密码错误')
       return false
     }
-    console.log(resp)
     
     if (!isDef(resp.uid)) {
       return error()

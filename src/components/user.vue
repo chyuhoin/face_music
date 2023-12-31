@@ -118,7 +118,6 @@ export default {
         resp = await this.getUid(phone, password)
       }
       this.loading = true
-      console.log(resp)
       const success = await this.login(resp).finally(() => {
         this.loading = false
       })

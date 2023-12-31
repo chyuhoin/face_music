@@ -12,7 +12,10 @@ import {
   Rate,
   Tag,
   Select,
-  InputNumber
+  InputNumber,
+  Progress,
+  Divider,
+  Container
 } from "element-ui"
 import VueLazyload from "vue-lazyload"
 import Meta from 'vue-meta'
@@ -55,6 +58,9 @@ export default {
     Vue.use(Tag)
     Vue.use(Select)
     Vue.use(InputNumber)
+    Vue.use(Progress)
+    Vue.use(Divider)
+    Vue.use(Container)
 
     Vue.use(Meta)
 

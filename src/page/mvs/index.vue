@@ -1,15 +1,15 @@
 <template>
   <div class="feedback">
-    <span>综合打分</span>
+    <span  style="font-size: 20px;font-weight: bold;">综合打分</span>
     <el-rate class="rate"
       v-model="rating"
       :colors="colors"
       show-text>
     </el-rate>
     
-    <span>反馈</span>
+    <span  style="font-size: 16px;font-weight: bold;">反馈</span>
     <el-input type="textarea" v-model="words" class="longtxt" :rows="10"></el-input>
-    <el-button class="submit-btn" @click="onSubmit()">提交</el-button>
+    <el-button type = "success"  style="font-size: 16px;font-weight: bold;" class="submit-btn" @click="onSubmit()">提交</el-button>
   </div>
 </template>
 
