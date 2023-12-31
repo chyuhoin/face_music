@@ -44,7 +44,7 @@
         <ul>
           <li style="margin-top: 10px;">
             <span style="display:inline-block; width:90px; text-align:right;">{{ e.tp }}</span>
-            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 5%; margin-left: 20px;"></el-input>
+            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 50px; margin-left: 20px;"></el-input>
           </li>
         </ul>
       </div>
