@@ -1,6 +1,6 @@
 <template>
   <div class="feedback-table">
-    <p>用户反馈表</p>
+    <p style="font-size: 20px; margin-top:10px; margin-bottom:10px; font-weight: bold;text-align: center">用户反馈表</p>
     <div class="container">
       <div class="table">
         <el-table :data="feedback">

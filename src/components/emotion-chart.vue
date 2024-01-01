@@ -1,6 +1,6 @@
 <template>
   <div class="emotion-chart" style="margin-bottom: 80px;">
-    <p>七维情感统计</p>
+    <p style="font-size: 20px; margin-top:10px; margin-bottom:10px; font-weight: bold;text-align: center">七维情感统计</p>
     <div class="chart-container">
       <div class="chart" ref="userEmotionChart"></div>
       <div class="chart" ref="musicEmotionChart"></div>
@@ -123,7 +123,7 @@ export default {
       this.userLineChart = this.$echarts.init(this.$refs.userLineChart);
       this.userLineChart.setOption({
         title: {
-          text: '用户情感变化折线'
+          text: ''
         },
         tooltip: {
           trigger: 'axis'

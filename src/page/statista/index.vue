@@ -89,7 +89,7 @@ export default {
       if (arr !== undefined) arr = arr[type];
       if (n !== undefined) n = n.length;
       if (n == 0) return 0;
-      if (n == 1) return arr[0];
+      if (n == 1) return parseFloat(arr[0].toFixed(2));
       return parseFloat(((arr[n - 1] + arr[n - 2]) * 0.5).toFixed(2));
     },
     init() {

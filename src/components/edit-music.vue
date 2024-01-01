@@ -1,6 +1,6 @@
 <template>
   <div class="add-music">
-    <el-dialog title="编辑音乐" :visible.sync="opened" @close="closeDialog">
+    <el-dialog width="400px" title="编辑音乐" :visible.sync="opened" @close="closeDialog">
       <div class="id-input" style="margin-bottom: 30px;">
         <span style="margin-right: 50px;">音乐名</span>
         <el-input
@@ -44,12 +44,12 @@
         <ul>
           <li style="margin-top: 10px;">
             <span style="display:inline-block; width:90px; text-align:right;">{{ e.tp }}</span>
-            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 50px; margin-left: 20px;"></el-input>
+            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 25%; margin-left: 20px; text-align:center;"></el-input>
           </li>
         </ul>
       </div>
-      <div style="margin-top: 20px;">
-        <el-button @click="submit()">保存修改</el-button>
+      <div class = "b2">
+        <el-button @click="submit()" type="success">保存修改</el-button>
         <el-button @click="remove()" type="danger">删除音乐</el-button>
       </div>
     </el-dialog>
@@ -181,7 +181,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.b2{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 
+}
 .suggest-item {
   position: fixed;
   right: auto;

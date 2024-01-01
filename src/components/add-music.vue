@@ -1,6 +1,6 @@
 <template>
   <div class="add-music">
-    <el-dialog title="添加音乐" :visible.sync="opened" @close="closeDialog">
+    <el-dialog width="400px" title="添加音乐" :visible.sync="opened" @close="closeDialog">
       <div class="id-input" style="margin-bottom: 30px;">
         <span style="margin-right: 50px;">音乐名</span>
         <el-input
@@ -43,12 +43,15 @@
       <div class="emotion" v-for="(e, index) in emotionList" :key="index">
         <ul>
           <li style="margin-top: 10px;">
-            <span style="display:inline-block; width:90px; text-align:right;">{{ e.tp }}</span>
-            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 50px; margin-left: 20px;"></el-input>
+            <span style="display:inline-block; width:90px; text-align:left;">{{ e.tp }}</span>
+            <el-input maxlength="2" onkeyup="value=value.replace(/[^\d]/g,'')" v-model="e.val" style="width: 25%; margin-left: 20px; text-align:center;"></el-input>
           </li>
         </ul>
       </div>
-      <el-button @click="submit()">添加音乐</el-button>
+      <div class = "b1">
+      <el-button type = "success" @click="submit()" style = "margin-top:15px;">添加音乐</el-button>
+      <el-button type = "danger" @click="closeDialog()" style = "margin-top:15px;">取消操作</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -158,6 +161,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.b1 {
+  display: flex;
+  justify-content: center;
+}
 
 .suggest-item {
   position: fixed;
