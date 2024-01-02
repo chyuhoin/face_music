@@ -43,7 +43,7 @@
           <el-input class="input" placeholder="昵称" v-model="nickname" style="margin-bottom: 20px;" />
           <!-- <el-input class="input" placeholder="性别" v-model="gender" style="margin-bottom: 20px;" /> -->
           <el-input class="input" placeholder="地址" v-model="address" style="margin-bottom: 20px;" />
-          <el-input class="input" placeholder="网易云uid" v-model="uid" style="margin-bottom: 20px;" />
+          <!-- <el-input class="input" placeholder="网易云uid" v-model="uid" style="margin-bottom: 20px;" /> -->
           <div class="register">
             <a @click="switchRegister()">已有账户？点击登录</a>
           </div>
@@ -88,7 +88,7 @@ export default {
       phone: "",
       nickname: "",
       password: "",
-      uid: "",
+      uid: "8914255095",
       gender: "",
       address: "",
       token: ""
