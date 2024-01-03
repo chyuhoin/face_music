@@ -7,7 +7,7 @@ import { TOKEN } from './config.js'
 
 
 const BASE_URL = 'https://mu-api.yuk0.com/'
-const LOCAL_URL = 'http://localhost:5000/'
+const LOCAL_URL = 'http://159.138.245.76/'
 // 不带全局loading的请求实例
 export const requestWithoutLoading = createBaseInstance()
 // 带全局loading的请求实例
